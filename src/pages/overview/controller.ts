@@ -211,8 +211,8 @@ export class OverviewPage {
           .get(`${staker.url}/report.json`)
           .subscribe(response => {
             try {
-              staker.stats = response.json()
               staker.updated = new Date
+              staker.stats = response.json()
 
               this.saveStakersStorage()
             } catch (e) {
