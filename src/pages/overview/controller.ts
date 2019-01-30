@@ -7,6 +7,7 @@ import {
 import { Component } from '@angular/core'
 import { Http } from '@angular/http'
 import { Storage } from '@ionic/storage'
+import moment from 'moment'
 
 @Component({
   selector: 'page-overview',
@@ -19,7 +20,7 @@ export class OverviewPage {
     url: string,
     stats: any,
     subscription: any,
-    updated: Date
+    updated: any
   }>
 
   loaded: boolean
@@ -211,8 +212,17 @@ export class OverviewPage {
           .get(`${staker.url}/report.json`)
           .subscribe(response => {
             try {
-              staker.updated = new Date
+              staker.updated = moment().fromNow()
               staker.stats = response.json()
+              staker.stats.last30d = parseFloat(staker.stats.report['Last 30 Days'])
+              staker.stats.last30dAvg = parseFloat(staker.stats.report['Last 30 Days']) / 30
+              staker.stats.last365d = parseFloat(staker.stats.report['Last 365 Days'])
+              staker.stats.last365dAvg = parseFloat(staker.stats.report['Last 365 Days']) / 365
+              staker.stats.last7d = parseFloat(staker.stats.report['Last 7 Days'])
+              staker.stats.last7dAvg = parseFloat(staker.stats.report['Last 7 Days']) / 7
+              staker.stats.alltime = parseFloat(staker.stats.report['Last All'])
+              staker.stats.eta = moment().add('seconds', staker.stats.info.expectedtime).fromNow()
+              staker.stats.laststake = moment(staker.stats.report['Latest Time']).fromNow()
 
               this.saveStakersStorage()
             } catch (e) {
