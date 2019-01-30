@@ -212,9 +212,6 @@ export class OverviewPage {
           .subscribe(response => {
             try {
               staker.stats = response.json()
-              staker.stats.spreadPercent = staker.stats.spread / staker.stats.bid
-              staker.stats.balance[staker.stats.asset].profit = staker.stats.balance[staker.stats.asset].consolidated - staker.stats.balance[staker.stats.asset].total
-              staker.stats.balance[staker.stats.currency].profit = staker.stats.balance[staker.stats.currency].consolidated - staker.stats.balance[staker.stats.currency].total
               staker.updated = new Date
 
               this.saveStakersStorage()
