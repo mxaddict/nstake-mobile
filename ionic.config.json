@@ -1,0 +1,8 @@
+{
+  "name": "MMonitor",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular",
+  "id": "cb8c2477"
+}
