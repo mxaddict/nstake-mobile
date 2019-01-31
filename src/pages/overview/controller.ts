@@ -8,6 +8,7 @@ import { Component } from '@angular/core'
 import { Http } from '@angular/http'
 import { Storage } from '@ionic/storage'
 import { LocalNotifications } from '@ionic-native/local-notifications'
+import { BackgroundMode } from '@ionic-native/background-mode'
 import moment from 'moment'
 
 @Component({
@@ -49,8 +50,12 @@ export class OverviewPage {
     public navCtrl: NavController,
     public platform: Platform,
     public storage: Storage,
-    public localNotifications: LocalNotifications
+    public localNotifications: LocalNotifications,
+    private backgroundMode: BackgroundMode
   ) {
+    // Enable BackgroundMode
+    this.backgroundMode.enable()
+
     // Set the default to an empty array
     this.stakers = []
     this.loaded = false
