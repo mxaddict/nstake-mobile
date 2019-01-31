@@ -281,5 +281,8 @@ export class OverviewPage {
         this.localNotifications.schedule(notification)
       }
     }
+
+    // We are done
+    this.hasNotifications = true
   }
 }
