@@ -123,7 +123,7 @@ export class OverviewPage {
     this.saveStakersStorage()
 
     // Load the stats
-    this.doRefresh(false)
+    this.loadStakersStats()
   }
 
   saveStakersStorage() {
@@ -156,9 +156,6 @@ export class OverviewPage {
 
           // Load stats when we start up
           this.doRefresh(false)
-
-          // Update the notifications
-          this.updateNotifications()
         } catch (e) {
           /* handle error */
         }
