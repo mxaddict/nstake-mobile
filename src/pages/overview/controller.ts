@@ -7,6 +7,7 @@ import {
 import { Component } from '@angular/core'
 import { Http } from '@angular/http'
 import { Storage } from '@ionic/storage'
+import { LocalNotifications } from '@ionic-native/local-notifications'
 import moment from 'moment'
 
 @Component({
@@ -37,13 +38,16 @@ export class OverviewPage {
 
   onResumeSubscription: any
 
+  inc: number
+
   constructor(
     public alertCtrl: AlertController,
     public http: Http,
     public modalCtrl: ModalController,
     public navCtrl: NavController,
     public platform: Platform,
-    public storage: Storage
+    public storage: Storage,
+    public localNotifications: LocalNotifications
   ) {
     // Set the default to an empty array
     this.stakers = []
@@ -56,18 +60,17 @@ export class OverviewPage {
     this.loadStakersStorage()
 
     this.onPauseSubscription = this.platform.resume.subscribe(() => {
-      console.log('paused')
-      this.paused = true
+      // this.paused = true
     })
 
     this.onResumeSubscription = this.platform.resume.subscribe(() => {
-      console.log('resumed')
-      this.paused = false
+      // this.paused = false
     })
 
     // We need to load the stakers stats
     setInterval(() => {
       this.loadStakersStats()
+      this.updateNotifications()
     }, this.pollRate)
   }
 
@@ -233,4 +236,17 @@ export class OverviewPage {
     }
   }
 
+  updateNotifications() {
+    this.inc++
+
+    // Loop the stakers
+    for (let i = 0, len = this.stakers.length; i < len; i++) {
+      let staker = this.stakers[i]
+      // Schedule a single notification
+      this.localNotifications.schedule({
+        id: i,
+        text: 'NSTAKE: ' + this.inc
+      })
+    }
+  }
 }
