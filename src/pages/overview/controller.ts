@@ -274,9 +274,6 @@ export class OverviewPage {
         // Update a single notification
         this.localNotifications.update(notification)
       } else {
-        // Make sure we lable them as created
-        this.hasNotifications = true
-
         // Schedule a single notification
         this.localNotifications.schedule(notification)
       }
