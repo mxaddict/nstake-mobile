@@ -1,0 +1,6 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "MMonitor",
+  "bundledWebRuntime": false,
+  "webDir": "www"
+}
