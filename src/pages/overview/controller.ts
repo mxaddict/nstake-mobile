@@ -212,7 +212,7 @@ export class OverviewPage {
           .get(`${staker.url}/report.json`)
           .subscribe(response => {
             try {
-              staker.updated = moment().fromNow()
+              staker.updated = moment().toDate()
               staker.stats = response.json()
               staker.stats.last30d = parseFloat(staker.stats.report['Last 30 Days'])
               staker.stats.last30dAvg = parseFloat(staker.stats.report['Last 30 Days']) / 30
@@ -221,8 +221,8 @@ export class OverviewPage {
               staker.stats.last7d = parseFloat(staker.stats.report['Last 7 Days'])
               staker.stats.last7dAvg = parseFloat(staker.stats.report['Last 7 Days']) / 7
               staker.stats.alltime = parseFloat(staker.stats.report['Last All'])
-              staker.stats.eta = moment().add('seconds', staker.stats.info.expectedtime).fromNow()
-              staker.stats.laststake = moment(staker.stats.report['Latest Time']).fromNow()
+              staker.stats.eta = moment().add('seconds', staker.stats.info.expectedtime).toDate()
+              staker.stats.laststake = moment.utc(staker.stats.report['Latest Time']).toDate()
 
               this.saveStakersStorage()
             } catch (e) {

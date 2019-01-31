@@ -68,7 +68,7 @@
           </ion-col>
           <ion-col col-7>
             <button ion-button color="light" block outline>
-              {{staker.stats.eta}}
+              {{staker.stats.eta | amTimeAgo}}
             </button>
           </ion-col>
         </ion-row>
@@ -80,7 +80,7 @@
           </ion-col>
           <ion-col col-7>
             <button ion-button color="light" block outline>
-              {{staker.stats.laststake}}
+              {{staker.stats.laststake | amTimeAgo}}
             </button>
           </ion-col>
         </ion-row>
@@ -176,7 +176,7 @@
           </button>
         </ion-col>
         <ion-col col-12>
-          <ion-note>Last updated: {{staker.updated ? (staker.updated) : 'never'}}</ion-note>
+          <ion-note>Last updated: {{staker.updated ? (staker.updated | amTimeAgo) : 'never'}}</ion-note>
         </ion-col>
       </ion-row>
       <ion-row>
