@@ -123,7 +123,7 @@ export class OverviewPage {
     this.saveStakersStorage()
 
     // Load the stats
-    this.loadStakersStats()
+    this.loadStakersStats(false)
   }
 
   saveStakersStorage() {
