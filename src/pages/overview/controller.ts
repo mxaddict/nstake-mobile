@@ -26,6 +26,8 @@ export class OverviewPage {
 
   loaded: boolean
 
+  hasNotifications: boolean
+
   paused: boolean
 
   showDetails: boolean
@@ -90,6 +92,9 @@ export class OverviewPage {
   }
 
   deleteStaker(stakerId) {
+    // make sure to clear notifications
+    this.hasNotifications = false
+
     // Check if we have a subscription
     if (typeof this.stakers[stakerId].subscription === 'function') {
       // Turn of the subscription
@@ -104,6 +109,9 @@ export class OverviewPage {
   }
 
   addStaker(data) {
+    // make sure to clear notifications
+    this.hasNotifications = false
+
     // Add the staker
     this.stakers.push(data)
 
@@ -144,6 +152,9 @@ export class OverviewPage {
 
           // Load stats when we start up
           this.loadStakersStats()
+
+          // Update the notifications
+          this.updateNotifications()
         } catch (e) {
           /* handle error */
         }
@@ -237,16 +248,38 @@ export class OverviewPage {
   }
 
   updateNotifications() {
-    this.inc++
+    // Check if we already have and just need to update
+    if (!this.hasNotifications) {
+        // Clear old notifications
+        this.localNotifications.clearAll()
+    }
 
     // Loop the stakers
     for (let i = 0, len = this.stakers.length; i < len; i++) {
+      // Get the staker
       let staker = this.stakers[i]
-      // Schedule a single notification
-      this.localNotifications.schedule({
+
+      // Build the notification
+      let notification = {
         id: i,
-        text: 'NSTAKE: ' + this.inc
-      })
+        title: staker.name,
+        launch: true,
+        wakeup: false,
+        text: 'Balance: ' + (staker.stats.balance + staker.stats.unconfirmedbalance).toFixed(2) + ' | Eta: ' + moment(staker.stats.eta).fromNow() + ' | Last: ' + moment(staker.stats.laststake).fromNow(),
+        sticky: true
+      }
+
+      // Check if we already have and just need to update
+      if (this.hasNotifications) {
+        // Update a single notification
+        this.localNotifications.update(notification)
+      } else {
+        // Make sure we lable them as created
+        this.hasNotifications = true
+
+        // Schedule a single notification
+        this.localNotifications.schedule(notification)
+      }
     }
   }
 }
