@@ -71,7 +71,7 @@ export class OverviewPage {
 
     // We need to load the stakers stats
     setInterval(() => {
-      this.doRefresh(false)
+      this.loadStakersStats(false)
     }, this.pollRate)
   }
 
@@ -88,11 +88,6 @@ export class OverviewPage {
         staker.subscription.unsubscribe()
       }
     }
-  }
-
-  doRefresh(event) {
-    this.loadStakersStats(event)
-    this.updateNotifications()
   }
 
   deleteStaker(stakerId) {
@@ -155,7 +150,7 @@ export class OverviewPage {
           this.stakers = JSON.parse(val)
 
           // Load stats when we start up
-          this.doRefresh(false)
+          this.loadStakerStats(false)
         } catch (e) {
           /* handle error */
         }
@@ -239,7 +234,11 @@ export class OverviewPage {
               staker.stats.eta = moment().add('seconds', staker.stats.info.expectedtime).toDate()
               staker.stats.laststake = moment.utc(staker.stats.report['Latest Time']).toDate()
 
+              // Save the data for later use
               this.saveStakersStorage()
+
+              // Update the notifications
+              this.updateNotifications()
             } catch (e) {
               /* handle error */
             }
