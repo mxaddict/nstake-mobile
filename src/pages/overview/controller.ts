@@ -71,8 +71,7 @@ export class OverviewPage {
 
     // We need to load the stakers stats
     setInterval(() => {
-      this.loadStakersStats()
-      this.updateNotifications()
+      this.doRefresh(false)
     }, this.pollRate)
   }
 
@@ -89,6 +88,11 @@ export class OverviewPage {
         staker.subscription.unsubscribe()
       }
     }
+  }
+
+  doRefresh(event) {
+    this.loadStakersStats(event)
+    this.updateNotifications()
   }
 
   deleteStaker(stakerId) {
@@ -119,7 +123,7 @@ export class OverviewPage {
     this.saveStakersStorage()
 
     // Load the stats
-    this.loadStakersStats()
+    this.doRefresh(false)
   }
 
   saveStakersStorage() {
@@ -151,7 +155,7 @@ export class OverviewPage {
           this.stakers = JSON.parse(val)
 
           // Load stats when we start up
-          this.loadStakersStats()
+          this.doRefresh(false)
 
           // Update the notifications
           this.updateNotifications()
@@ -218,7 +222,7 @@ export class OverviewPage {
     }).present()
   }
 
-  loadStakersStats() {
+  loadStakersStats(event) {
     // Create the observers
     if (this.stakers.length && !this.paused) {
       for (let staker of this.stakers) {
@@ -242,6 +246,12 @@ export class OverviewPage {
             } catch (e) {
               /* handle error */
             }
+
+            // Check if we have an event
+            if (event) {
+              // Close the refresh
+              event.complete()
+            }
           })
       }
     }
@@ -258,6 +268,11 @@ export class OverviewPage {
     for (let i = 0, len = this.stakers.length; i < len; i++) {
       // Get the staker
       let staker = this.stakers[i]
+
+      // Check if we have a staker
+      if (!staker.stats) {
+        continue
+      }
 
       // Build the notification
       let notification = {
