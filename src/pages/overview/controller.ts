@@ -150,7 +150,7 @@ export class OverviewPage {
           this.stakers = JSON.parse(val)
 
           // Load stats when we start up
-          this.loadStakerStats(false)
+          this.loadStakersStats(false)
         } catch (e) {
           /* handle error */
         }
