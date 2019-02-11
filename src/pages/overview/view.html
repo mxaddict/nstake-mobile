@@ -29,84 +29,99 @@
     <ion-card-content>
       <div *ngIf="staker.stats">
         <ion-row>
-          <ion-col col-5>
+          <ion-col col-6>
             <button ion-button color="{{staker.stats.info.staking ? 'secondary' : 'danger'}}" block outline>
               STAKING: {{staker.stats.info.staking ? "Yes! ^_^" : "No! :'("}}
             </button>
           </ion-col>
-          <ion-col col-7>
+          <ion-col col-6>
             <button ion-button color="secondary" block outline>
               {{staker.stats.balance | number: '1.2-4'}}
             </button>
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col col-5>
+          <ion-col col-6>
             <button ion-button color="light" block outline>
               ETA to STAKE
             </button>
           </ion-col>
-          <ion-col col-7>
+          <ion-col col-6>
             <button ion-button color="light" block outline>
               {{ staker.stats.eta ? (staker.stats.eta | amTimeAgo) : 'Never' }}
             </button>
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col col-5>
+          <ion-col col-6>
             <button ion-button color="light" block outline>
               Last STAKE
             </button>
           </ion-col>
-          <ion-col col-7>
+          <ion-col col-6>
             <button ion-button color="light" block outline>
               {{ staker.stats.laststake ? (staker.stats.laststake | amTimeAgo) : 'Never' }}
             </button>
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col col-5>
+          <ion-col col-6>
             <button ion-button block outline>
               Last 7D
             </button>
           </ion-col>
-          <ion-col col-7>
+          <ion-col col-3>
             <button ion-button block outline>
-              {{staker.stats.last7d | number: '1.2-4'}} ({{staker.stats.last7dAvg | number: '1.2-4'}})
+              {{staker.stats.last7d | number: '1.2-4'}}
+            </button>
+          </ion-col>
+          <ion-col col-3>
+            <button ion-button block outline>
+              {{staker.stats.last7dAvg | number: '1.2-4'}}
             </button>
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col col-5>
+          <ion-col col-6>
             <button ion-button block outline>
               Last 30D
             </button>
           </ion-col>
-          <ion-col col-7>
+          <ion-col col-3>
             <button ion-button block outline>
-              {{staker.stats.last30d | number: '1.2-4'}} ({{staker.stats.last30dAvg | number: '1.2-4'}})
+              {{staker.stats.last30d | number: '1.2-4'}}
+            </button>
+          </ion-col>
+          <ion-col col-3>
+            <button ion-button block outline>
+              {{staker.stats.last30dAvg | number: '1.2-4'}}
             </button>
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col col-5>
+          <ion-col col-6>
             <button ion-button block outline>
               Last 365D
             </button>
           </ion-col>
-          <ion-col col-7>
+          <ion-col col-3>
             <button ion-button block outline>
-              {{staker.stats.last365d | number: '1.2-4'}} ({{staker.stats.last365dAvg | number: '1.2-4'}})
+              {{staker.stats.last365d | number: '1.2-4'}}
+            </button>
+          </ion-col>
+          <ion-col col-3>
+            <button ion-button block outline>
+              {{staker.stats.last365dAvg | number: '1.2-4'}}
             </button>
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col col-5>
+          <ion-col col-6>
             <button ion-button block outline>
               Alltime
             </button>
           </ion-col>
-          <ion-col col-7>
+          <ion-col col-6>
             <button ion-button block outline>
               {{staker.stats.alltime | number: '1.2-4'}}
             </button>
