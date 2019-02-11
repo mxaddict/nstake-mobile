@@ -31,36 +31,12 @@
         <ion-row>
           <ion-col col-5>
             <button ion-button color="{{staker.stats.info.staking ? 'secondary' : 'danger'}}" block outline>
-              WE STAKING?
-            </button>
-          </ion-col>
-          <ion-col col-7>
-            <button ion-button color="{{staker.stats.info.staking ? 'secondary' : 'danger'}}" block outline>
-              {{staker.stats.info.staking ? "Yes! ^_^" : "No! :'("}}
-            </button>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-5>
-            <button ion-button color="secondary" block outline>
-              Balance
+              STAKING: {{staker.stats.info.staking ? "Yes! ^_^" : "No! :'("}}
             </button>
           </ion-col>
           <ion-col col-7>
             <button ion-button color="secondary" block outline>
-              {{staker.stats.balance + staker.stats.unconfirmedbalance | number: '1.2-4'}}
-            </button>
-          </ion-col>
-        </ion-row>
-        <ion-row *ngIf="staker.stats.unconfirmedbalance > 0.00">
-          <ion-col col-5>
-            <button ion-button color="danger" block outline>
-              Unconfirmed Balance
-            </button>
-          </ion-col>
-          <ion-col col-7>
-            <button ion-button color="danger" block outline>
-              {{staker.stats.unconfirmedbalance | number: '1.2-4'}}
+              {{staker.stats.balance | number: '1.2-4'}}
             </button>
           </ion-col>
         </ion-row>
@@ -72,7 +48,7 @@
           </ion-col>
           <ion-col col-7>
             <button ion-button color="light" block outline>
-              {{staker.stats.eta | amTimeAgo}}
+              {{ staker.stats.eta ? (staker.stats.eta | amTimeAgo) : 'Never' }}
             </button>
           </ion-col>
         </ion-row>
@@ -84,7 +60,7 @@
           </ion-col>
           <ion-col col-7>
             <button ion-button color="light" block outline>
-              {{staker.stats.laststake | amTimeAgo}}
+              {{ staker.stats.laststake ? (staker.stats.laststake | amTimeAgo) : 'Never' }}
             </button>
           </ion-col>
         </ion-row>
@@ -96,7 +72,7 @@
           </ion-col>
           <ion-col col-7>
             <button ion-button block outline>
-              {{staker.stats.last7d | number: '1.2-4'}}
+              {{staker.stats.last7d | number: '1.2-4'}} ({{staker.stats.last7dAvg | number: '1.2-4'}})
             </button>
           </ion-col>
         </ion-row>
@@ -108,7 +84,7 @@
           </ion-col>
           <ion-col col-7>
             <button ion-button block outline>
-              {{staker.stats.last30d | number: '1.2-4'}}
+              {{staker.stats.last30d | number: '1.2-4'}} ({{staker.stats.last30dAvg | number: '1.2-4'}})
             </button>
           </ion-col>
         </ion-row>
@@ -120,7 +96,7 @@
           </ion-col>
           <ion-col col-7>
             <button ion-button block outline>
-              {{staker.stats.last365d | number: '1.2-4'}}
+              {{staker.stats.last365d | number: '1.2-4'}} ({{staker.stats.last365dAvg | number: '1.2-4'}})
             </button>
           </ion-col>
         </ion-row>
@@ -136,42 +112,6 @@
             </button>
           </ion-col>
         </ion-row>
-        <ion-row *ngIf="showDetails">
-          <ion-col col-5>
-            <button ion-button block color="dark">
-              7D AVG/Day
-            </button>
-          </ion-col>
-          <ion-col col-7>
-            <button ion-button block color="dark">
-              {{staker.stats.last7dAvg | number: '1.2-4'}}
-            </button>
-          </ion-col>
-        </ion-row>
-        <ion-row *ngIf="showDetails">
-          <ion-col col-5>
-            <button ion-button block color="dark">
-              30D AVG/Day
-            </button>
-          </ion-col>
-          <ion-col col-7>
-            <button ion-button block color="dark">
-              {{staker.stats.last30dAvg | number: '1.2-4'}}
-            </button>
-          </ion-col>
-        </ion-row>
-        <ion-row *ngIf="showDetails">
-          <ion-col col-5>
-            <button ion-button block color="dark">
-              365D AVG/Day
-            </button>
-          </ion-col>
-          <ion-col col-7>
-            <button ion-button block color="dark">
-              {{staker.stats.last365dAvg | number: '1.2-4'}}
-            </button>
-          </ion-col>
-        </ion-row>
       </div>
       <ion-row>
         <ion-col col-12>
@@ -179,18 +119,14 @@
             <ion-icon name="link"></ion-icon> {{staker.url}}
           </button>
         </ion-col>
-        <ion-col col-12>
-          <ion-note>Last updated: {{staker.updated ? (staker.updated | amTimeAgo) : 'never'}}</ion-note>
-        </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col col-7>
-          <button ion-button icon-left color="info" block (click)="showDetails = !showDetails">
-            <ion-icon name="analytics"></ion-icon>
-            {{ !showDetails ? 'Show': 'Hide'}} Details
+        <ion-col col-5>
+          <button ion-button icon-left color="primary" block>
+            Updated {{staker.updated ? (staker.updated | amTimeAgo) : 'never'}}
           </button>
         </ion-col>
-        <ion-col col-5>
+        <ion-col col-7>
           <button ion-button icon-left color="danger" block (click)="deleteStakerAlert(id)">
             <ion-icon name="trash"></ion-icon>
             Delete

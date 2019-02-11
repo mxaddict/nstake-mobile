@@ -229,6 +229,12 @@ export class OverviewPage {
             try {
               staker.updated = moment().toDate()
               staker.stats = response.json()
+              staker.stats.balance = (
+                staker.stats.wallet.balance +
+                staker.stats.wallet.coldstaking_balance +
+                staker.stats.wallet.immature_balance +
+                staker.stats.wallet.unconfirmed_balance
+              )
               staker.stats.last30d = parseFloat(staker.stats.report['Last 30 Days'])
               staker.stats.last30dAvg = parseFloat(staker.stats.report['Last 30 Days']) / 30
               staker.stats.last365d = parseFloat(staker.stats.report['Last 365 Days'])
@@ -236,7 +242,7 @@ export class OverviewPage {
               staker.stats.last7d = parseFloat(staker.stats.report['Last 7 Days'])
               staker.stats.last7dAvg = parseFloat(staker.stats.report['Last 7 Days']) / 7
               staker.stats.alltime = parseFloat(staker.stats.report['Last All'])
-              staker.stats.eta = moment().add('seconds', staker.stats.info.expectedtime).toDate()
+              staker.stats.eta = staker.stats.info.staking ? moment().add('seconds', staker.stats.info.expectedtime).toDate() : false
               staker.stats.laststake = moment.utc(staker.stats.report['Latest Time']).toDate()
 
               // Save the data for later use
@@ -281,7 +287,7 @@ export class OverviewPage {
         title: staker.name,
         launch: true,
         wakeup: false,
-        text: 'Balance: ' + (staker.stats.balance + staker.stats.unconfirmedbalance).toFixed(2) + ' | Eta: ' + moment(staker.stats.eta).fromNow() + ' | Last: ' + moment(staker.stats.laststake).fromNow(),
+        text: 'Balance: ' + staker.stats.balance.toFixed(4) + ' | Eta: ' + moment(staker.stats.eta).fromNow() + ' | Last: ' + moment(staker.stats.laststake).fromNow(),
         sticky: true
       }
 
