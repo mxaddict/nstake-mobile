@@ -121,15 +121,16 @@
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col col-5>
-          <button ion-button icon-left color="primary" block>
-            Updated {{staker.updated ? (staker.updated | amTimeAgo) : 'never'}}
-          </button>
-        </ion-col>
-        <ion-col col-7>
+        <ion-col col-3>
           <button ion-button icon-left color="danger" block (click)="deleteStakerAlert(id)">
             <ion-icon name="trash"></ion-icon>
             Delete
+          </button>
+        </ion-col>
+        <ion-col col-9>
+          <button ion-button icon-left color="dark" block>
+            <ion-icon name="stats"></ion-icon>
+            Updated {{staker.updated ? (staker.updated | amTimeAgo) : 'never'}}
           </button>
         </ion-col>
       </ion-row>
