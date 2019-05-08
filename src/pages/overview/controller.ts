@@ -7,8 +7,6 @@ import {
 import { Component } from '@angular/core'
 import { Http } from '@angular/http'
 import { Storage } from '@ionic/storage'
-import { LocalNotifications } from '@ionic-native/local-notifications'
-import { BackgroundMode } from '@ionic-native/background-mode'
 import moment from 'moment'
 
 @Component({
@@ -26,8 +24,6 @@ export class OverviewPage {
   }>
 
   loaded: boolean
-
-  hasNotifications: boolean
 
   paused: boolean
 
@@ -49,13 +45,8 @@ export class OverviewPage {
     public modalCtrl: ModalController,
     public navCtrl: NavController,
     public platform: Platform,
-    public storage: Storage,
-    public localNotifications: LocalNotifications,
-    private backgroundMode: BackgroundMode
+    public storage: Storage
   ) {
-    // Enable BackgroundMode
-    this.backgroundMode.enable()
-
     // Set the default to an empty array
     this.stakers = []
     this.loaded = false
@@ -96,9 +87,6 @@ export class OverviewPage {
   }
 
   deleteStaker(stakerId) {
-    // make sure to clear notifications
-    this.hasNotifications = false
-
     // Check if we have a subscription
     if (typeof this.stakers[stakerId].subscription === 'function') {
       // Turn of the subscription
@@ -113,9 +101,6 @@ export class OverviewPage {
   }
 
   addStaker(data) {
-    // make sure to clear notifications
-    this.hasNotifications = false
-
     // Add the staker
     this.stakers.push(data)
 
@@ -247,9 +232,6 @@ export class OverviewPage {
 
               // Save the data for later use
               this.saveStakersStorage()
-
-              // Update the notifications
-              this.updateNotifications()
             } catch (e) {
               /* handle error */
             }
@@ -262,46 +244,5 @@ export class OverviewPage {
           })
       }
     }
-  }
-
-  updateNotifications() {
-    // Check if we already have and just need to update
-    if (!this.hasNotifications) {
-        // Clear old notifications
-        this.localNotifications.clearAll()
-    }
-
-    // Loop the stakers
-    for (let i = 0, len = this.stakers.length; i < len; i++) {
-      // Get the staker
-      let staker = this.stakers[i]
-
-      // Check if we have a staker
-      if (!staker.stats) {
-        continue
-      }
-
-      // Build the notification
-      let notification = {
-        id: i,
-        title: staker.name,
-        launch: true,
-        wakeup: false,
-        text: 'Balance: ' + staker.stats.balance.toFixed(4) + ' | Eta: ' + moment(staker.stats.eta).fromNow() + ' | Last: ' + moment(staker.stats.laststake).fromNow(),
-        sticky: true
-      }
-
-      // Check if we already have and just need to update
-      if (this.hasNotifications) {
-        // Update a single notification
-        this.localNotifications.update(notification)
-      } else {
-        // Schedule a single notification
-        this.localNotifications.schedule(notification)
-      }
-    }
-
-    // We are done
-    this.hasNotifications = true
   }
 }
